@@ -505,18 +505,18 @@ button:hover {
     let investedAmount = 0;
     let leverage = 1;
     let position = null;
-    let stopLoss = null;
-    let takeProfit = null;
 
     const priceElement = document.getElementById('priceDisplay');
     const signalElement = document.getElementById('signal');
     const balanceElement = document.getElementById('balance');
     const entryPriceElement = document.getElementById('entryPrice');
 
+    // Actualizar precio en la UI
     function updatePrice(price) {
         priceElement.textContent = `Precio: $${price.toFixed(2)}`;
     }
 
+    // Actualizar señal de compra/venta en la UI
     function updateSignal(signalType) {
         if (signalType === 'buy') {
             signalElement.textContent = 'Señal de Compra';
@@ -529,6 +529,7 @@ button:hover {
         }
     }
 
+    // Simular entrada (compra/venta)
     function simulateEntry(action) {
         const amount = parseFloat(document.getElementById('inputAmount').value);
         if (!amount || amount <= 0) {
@@ -560,6 +561,7 @@ button:hover {
         }
     }
 
+    // Simular entrada en futuros (long o short)
     function simulateFuturePosition(action) {
         const amount = parseFloat(document.getElementById('inputAmount').value);
         if (!amount || amount <= 0) {
@@ -574,6 +576,7 @@ button:hover {
         updateSignal(action === 'long' ? 'buy' : 'sell');
     }
 
+    // Cerrar posición en futuros (long o short)
     function closePosition() {
         if (position) {
             const profitOrLoss = position === 'long'
@@ -599,6 +602,7 @@ button:hover {
         }
     }
 
+    // Actualizar balance mientras la posición sigue abierta
     function updateBalance() {
         let currentBalance = parseFloat(balanceElement.textContent.replace('Saldo: $', ''));
         if (position) {
@@ -612,31 +616,6 @@ button:hover {
             balanceElement.textContent = `Saldo: $${currentBalance.toFixed(2)}`;
             document.getElementById('percentageGain').textContent = `Porcentaje Ganado: ${profitPercentage}%`;
         }
-    }
-
-    // Temporizadores para 5m, 15m, 1h y 4h
-    function startCountdown(intervalSeconds, elementId) {
-        let timeLeft = intervalSeconds;
-        const timerElement = document.getElementById(elementId);
-        const interval = setInterval(() => {
-            timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-
-            if (timeLeft <= 0) {
-                clearInterval(interval);
-                timerElement.textContent = 'Listo!';
-            }
-        }, 1000);
-    }
-
-    // Inicializar los temporizadores
-    function initializeCountdowns() {
-        startCountdown(300, 'timer-5min'); // 5 minutos
-        startCountdown(900, 'timer-15min'); // 15 minutos
-        startCountdown(3600, 'timer-1h'); // 1 hora
-        startCountdown(14400, 'timer-4h'); // 4 horas
     }
 
     // Obtener precio de la criptomoneda
@@ -704,8 +683,8 @@ button:hover {
     // Inicializar todo al cargar
     fetchCryptoPrice(); // Obtiene el precio al inicio
     setInterval(fetchCryptoPrice, 10000); // Actualiza el precio cada 10 segundos
-    initializeCountdowns(); // Inicializa los temporizadores
 </script>
+
 
 
    
